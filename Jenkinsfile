@@ -49,7 +49,7 @@ pipeline
 			
 	  
 		}
-		stage('sonarqube analysis')
+		/*stage('sonarqube analysis')
 		{
 			
 			steps
@@ -94,7 +94,7 @@ pipeline
 					
 						bat "mvn verify -Dmaven.test.failure.ignore=true"
 					}
-		}
+		}*/
 		stage('war')
 		{
 			steps
