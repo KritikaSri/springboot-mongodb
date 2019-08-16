@@ -78,7 +78,7 @@ pipeline
 		{
 			steps
 			{
-				bat 'mvn package'
+				bat 'mvn package -Dmaven.test.failure.ignore=true'
 				
 			}
 		}
