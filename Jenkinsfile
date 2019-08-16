@@ -85,7 +85,7 @@ pipeline
 				
 			}
 		}
-		
+		*/
 		stage('performance and security')
 		{
 				steps
@@ -94,7 +94,7 @@ pipeline
 					
 						bat "mvn verify -Dmaven.test.failure.ignore=true"
 					}
-		}*/
+		}
 		stage('war')
 		{
 			steps
