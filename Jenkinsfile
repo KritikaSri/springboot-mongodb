@@ -65,14 +65,15 @@ pipeline
 				//}
 			}
 		}
-		/*stage('unit test')
+		stage('unit test')
 		{
 			steps
 			{
-				bat "mvn test"
+				bat "mvn test -Dmaven.test.failure.ignore=true"
+				
 				
 			}
-		}*/
+		}
 		stage('code coverage')
 		{
 			steps
