@@ -65,14 +65,14 @@ pipeline
 				//}
 			}
 		}
-		stage('unit test')
+		/*stage('unit test')
 		{
 			steps
 			{
 				bat "mvn test"
 				
 			}
-		}
+		}*/
 		stage('code coverage')
 		{
 			steps
