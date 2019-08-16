@@ -59,10 +59,10 @@ pipeline
 					FAILED_STAGE=env.STAGE_NAME
 				}
 				bat 'mvn sonar:sonar -Dsonar.host.url="http://10.76.81.93:2500" '
-				timeout(time: 10, unit: 'MINUTES') 
-				{
-					waitForQualityGate abortPipeline: true
-				}
+				//timeout(time: 10, unit: 'MINUTES') 
+				//{
+				//	waitForQualityGate abortPipeline: true
+				//}
 			}
 		}
 		stage('unit test')
