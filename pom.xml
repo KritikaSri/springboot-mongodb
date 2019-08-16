@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.techprimers.mongodb</groupId>
+   <artifactId>spring-boot-mongodb-example</artifactId>
+   <version>0.0.1-SNAPSHOT</version>
+   <packaging>jar</packaging>
+   <name>spring-boot-mongodb-example</name>
+   <description>Demo project for Spring Boot</description>
+   <parent>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-parent</artifactId>
+      <version>1.5.4.RELEASE</version>
+      <relativePath />
+      <!-- lookup parent from repository -->
+   </parent>
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+      <java.version>1.8</java.version>
+   </properties>
+	<profiles>
+	<profile>
+            <id>performance</id>
+            <build>
+                <plugins>
+                    <!-- execute JMeter test -->
+                    <plugin>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>jmeter-maven-plugin</artifactId>
+                        <version>${jmeter-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>test</id>
+                                <goals>
+                                    <goal>jmeter</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <propertiesUser>
+                                <!--A user which accesses all URLs-->
+                                <threadgroup00.name>test</threadgroup00.name>
+                                <!--number of threads to use-->
+                                <threadgroup00.numberOfThreads>${test.threads}</threadgroup00.numberOfThreads>
+                                <!--delay of the test in seconds-->
+                                <threadgroup00.scheduledDelay>0</threadgroup00.scheduledDelay>
+                                <!--duration of the test in seconds-->
+                                <threadgroup00.scheduledDuration>${test.duration}</threadgroup00.scheduledDuration>
+                                <!--how long till all threads are up and running in seconds-->
+                                <threadgroup00.rampUp>1</threadgroup00.rampUp>
+                                <!--target throughput of all threads of the group per minute-->
+                                <threadgroup00.throughput>100000000</threadgroup00.throughput>
+                                <!-- use uris from given file -->
+                                <threadgroup00.dataFile>${webapp.uris}</threadgroup00.dataFile>
+                                <protocol>${webapp.protocol}</protocol>
+                                <server>${webapp.host}</server>
+                                <port>${webapp.port}</port>
+                            </propertiesUser>
+                            <ignoreResultFailures>true</ignoreResultFailures>
+                        </configuration>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>jmeter-analysis-maven-plugin</artifactId>
+                        <version>${jmeter.analysis.maven.plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>analyze</goal>
+                                </goals>
+                                <phase>post-integration-test</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <!--
+                            source file that contains jmeter result data. Needs to be XML format or a GZIPed XML format
+                            -->
+                            <source>${project.build.directory}/jmeter/results/*</source>
+
+                            <!--
+                            directory where to store analysis report files. At least a file "summary.txt" will be stored here.
+                            -->
+                            <targetDirectory>${project.build.directory}/reports</targetDirectory>
+
+                            <!--
+                            Defines groups of requests by URL patterns,
+                            e.g. URIs starting with /mock/page are associated with group "pages". All analysis results are
+                            If there is no such mapping then the threadgroups from the jmeter.xml are used.
+                            -->
+                            <!--<requestGroups>-->
+                            <!--<test>/en-US/firefox/**</test>-->
+                            <!--</requestGroups>-->
+
+                            <!--
+                            Mapping from resource URL to file name. Every resource will be downloaded and stored in 'targetDirectory'
+                            with the given filename. Tokens "_FROM_" and "_TO_" can be used as placeholders. These placeholders will
+                            be replaced by timestamps of execution interval (formatted as ISO8601, e.g. '20111216T145509+0100').
+                            -->
+                            <!--<remoteResources>-->
+                            <!--<property>-->
+                            <!--<name>http://yourhost/path?from=_FROM_&amp;to=_TO_</name>-->
+                            <!--<value>my_resource.txt</value>-->
+                            <!--</property>-->
+                            <!--</remoteResources>-->
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+	</profiles>
+   <dependencies>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-data-mongodb</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-web</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-test</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <!-- Added By Sourabh -->
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.12</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.seleniumhq.selenium</groupId>
+         <artifactId>selenium-java</artifactId>
+         <version>2.53.1</version>
+      </dependency>
+   </dependencies>
+   <build>
+      <plugins>
+          <plugin>            
+        <groupId>com.lazerycode.jmeter</groupId>            
+        <artifactId>jmeter-maven-plugin</artifactId>            
+        <version>1.4.1</version>            
+        <configuration>                
+          <testResultsTimestamp>false</testResultsTimestamp>                
+          <propertiesUser>                    
+            <threadCount>${performancetest.threadCount}</threadCount>                
+          </propertiesUser>                
+          <propertiesJMeter>                    
+            <jmeter.save.saveservice.thread_counts>true</jmeter.save.saveservice.thread_counts>                
+          </propertiesJMeter>            
+        </configuration>            
+        <executions>                
+          <execution>                    
+            <id>jmeter-tests</id>                    
+            <phase>verify</phase>                    
+            <goals>                    
+              <goal>jmeter</goal>                    
+            </goals>                
+          </execution>            
+        </executions>            
+      </plugin>        
+         <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+         </plugin>
+         <!-- Added By Sourabh -->
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.1</version>
+            <configuration>
+               <source>1.8</source>
+               <target>1.8</target>
+            </configuration>
+         </plugin>
+         <plugin>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>2.19.1</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>integration-test</goal>
+                     <goal>verify</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.2</version>
+         </plugin>
+         <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.5.5.201112152213</version>
+            <configuration>
+               <destFile>${basedir}/target/coverage-reports/jacoco-unit.exec</destFile>
+               <dataFile>${basedir}/target/coverage-reports/jacoco-unit.exec</dataFile>
+            </configuration>
+            <executions>
+               <execution>
+                  <id>jacoco-initialize</id>
+                  <goals>
+                     <goal>prepare-agent</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>jacoco-site</id>
+                  <phase>package</phase>
+                  <goals>
+                     <goal>report</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-maven-plugin</artifactId>
+            <version>3.1.6</version>
+            <configuration>
+               <effort>Max</effort>
+               <threshold>Low</threshold>
+               <failOnError>true</failOnError>
+               <xmlOutput>true</xmlOutput>
+               <plugins>
+                  <plugin>
+                     <groupId>com.h3xstream.findsecbugs</groupId>
+                     <artifactId>findsecbugs-plugin</artifactId>
+                     <version>LATEST</version>
+                  </plugin>
+               </plugins>
+            </configuration>
+            <dependencies>
+               <dependency>
+                  <groupId>com.github.spotbugs</groupId>
+                  <artifactId>spotbugs</artifactId>
+                  <version>3.1.6</version>
+               </dependency>
+            </dependencies>
+         </plugin>
+         <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>5.2.4</version>
+                <configuration>
+                    <url>jdbc:h2:file:./target/foobar</url>
+                    <user>sa</user>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>1.4.197</version>
+                    </dependency>
+                   <dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>2.7.3</version>
+		</dependency>
+
+                </dependencies>
+            </plugin>
+      </plugins>
+   </build>
+</project>
