@@ -90,9 +90,9 @@ pipeline
 		{
 				steps
 					{
-						bat "mvn findbugs:findbugs"
+						bat "mvn findbugs:findbugs -Dmaven.test.failure.ignore=true"
 					
-						bat "mvn verify"
+						bat "mvn verify -Dmaven.test.failure.ignore=true"
 					}
 		}
 		stage('war')
@@ -117,7 +117,7 @@ pipeline
 		{
 			steps
 			{ 
-				bat "mvn integration-test"
+				bat "mvn integration-test -Dmaven.test.failure.ignore=true"
 			}
 		}
 		
