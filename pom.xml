@@ -138,18 +138,6 @@
          <version>2.53.1</version>
       </dependency>
    </dependencies>
-   <distributionManagement>
-                <repository>
-                    <id>central</id>
-                    <name>PUNHJWADMDOSTP-releases</name>
-                    <url>http://10.76.81.93:8088/artifactory/assignment/Releases</url>
-                </repository>
-                <snapshotRepository>
-                    <id>snapshots</id>
-                    <name>PUNHJWADMDOSTP-snapshots</name>
-                    <url>http://10.76.81.93:8088/artifactory/assignment/Snapshots</url>
-                </snapshotRepository>
-            </distributionManagement>  
    <build>
       <plugins>
           <plugin>            
@@ -253,16 +241,9 @@
                   <artifactId>spotbugs</artifactId>
                   <version>3.1.6</version>
                </dependency>
-			   </dependencies>
-			   	  
-			       
+            </dependencies>
          </plugin>
-         <plugin>			  
-				<plugin>
-						<groupId>org.sonarsource.scanner.maven</groupId>
-						<artifactId>sonar-maven-plugin</artifactId>
-						<version>3.2</version>
-			  </plugin>
+         <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
@@ -287,4 +268,5 @@
       </plugins>
    </build>
 </project>
+
 
