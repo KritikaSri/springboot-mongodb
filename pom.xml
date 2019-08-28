@@ -257,30 +257,12 @@
 			   	  
 			       
          </plugin>
-         <plugin>
-		 
-				 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.0.0-M3</version>
-                    <configuration>
-                        <skipITs>true</skipITs>
-                    </configuration>        
-                    <executions>
-                      <execution>
-                        <goals>
-                          <goal>integration-test</goal>
-                          <goal>verify</goal>
-                        </goals>
-                      </execution>
-                    </executions>
-                  </plugin>
-				  
-				  <plugin>
+         <plugin>			  
+				<plugin>
 						<groupId>org.sonarsource.scanner.maven</groupId>
 						<artifactId>sonar-maven-plugin</artifactId>
 						<version>3.2</version>
-					</plugin>
+			  </plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>5.2.4</version>
